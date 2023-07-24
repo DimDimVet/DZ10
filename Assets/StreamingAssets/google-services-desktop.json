@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "435510594707",
+    "firebase_url": "https://testdz4unity-default-rtdb.firebaseio.com/",
+    "project_id": "testdz4unity",
+    "storage_bucket": "testdz4unity.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435510594707:android:43ebdf9037490d6daf5166",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.DZ32"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435510594707-7kva9hh3md7rcqg6d0eq6d0b373me7ai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARjuuG0TSOS-SqMWkLcdBdAPYduGw6Bk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435510594707-7kva9hh3md7rcqg6d0eq6d0b373me7ai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
