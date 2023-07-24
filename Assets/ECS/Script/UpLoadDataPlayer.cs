@@ -1,3 +1,4 @@
+using Firebase.Database;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
@@ -17,12 +18,11 @@ public class UpLoadDataPlayer : MonoBehaviour
     [SerializeField] private HealtComponent healtComponent;
     private string hashKey = "DataPlayer";
     //
-    private NativeArray<bool> rezult;
-    private SaveJob saveJob;
+
     //Zenject
     private IData dataConfig;
 
-    
+
     [Inject]
     public void Init(IData d)
     {
@@ -52,7 +52,7 @@ public class UpLoadDataPlayer : MonoBehaviour
     //    DataPlayer dataPlayerLocal;
     //    DataPlayer dataPlayerDefault;
 
-    //    bool isFireBase=dataConfig.LoadDataFireBase(FireBaseTool.Snapshot, out dataPlayerFireBase);//загрузим FireBase
+    //    bool isFireBase = dataConfig.LoadDataFireBase(FireBaseTool.Snapshot, out dataPlayerFireBase);//загрузим FireBase
     //    loadFireBaseData.text = $"healtPlayer={dataPlayerFireBase.healtPlayer} shootCount={dataPlayerFireBase.shootCount}";
 
     //    bool isLocalBase = dataConfig.LoadDataLocalBase(hashKey, out dataPlayerLocal);//загрузим LocalBase
@@ -75,6 +75,7 @@ public class UpLoadDataPlayer : MonoBehaviour
 
     //}
 
+    ////Async/await
     private async void LoadData()
     {
         //
@@ -118,37 +119,18 @@ public class UpLoadDataPlayer : MonoBehaviour
     }
 
     //Old
-    //private void SaveData()
-    //{
-    //    DataPlayer dataPlayer = new DataPlayer
-    //    {
-    //        healtPlayer = healtComponent.Healt,
-    //        shootCount = Statistic.ShootCount
-    //    };
-
-    //    string rezult = dataConfig.SaveData(dataPlayer, hashKeys);
-    //    saveData.text = rezult;
-    //}
     private void SaveData()
     {
-
-        rezult = new NativeArray<bool>(1,Allocator.TempJob);//создадим экз.массива
-
-        saveJob = new SaveJob {
-            Healt= healtComponent.Healt,
-            ShootCount= Statistic.ShootCount,
-            hashKey= hashKey,
-            result= rezult
+        DataPlayer dataPlayer = new DataPlayer
+        {
+            healtPlayer = healtComponent.Healt,
+            shootCount = Statistic.ShootCount
         };
 
-        JobHandle handle = saveJob.Schedule();
-        handle.Complete();
-
-        
-
-        //string rezult = dataConfig.SaveData(dataPlayer, hashKey);
-        //saveData.text = rezult;
+        string rezult = dataConfig.SaveData(dataPlayer, hashKey);
+        saveData.text = rezult;
     }
+
 }
 
 //srukture 
@@ -158,22 +140,4 @@ public struct DataPlayer
     public int healtPlayer;
 }
 
-public struct SaveJob : IJob
-{
-    public int Healt;
-    public int ShootCount;
-    public string hashKey;
-    public NativeArray<bool> result;
-    private IData dataConfig;
-    public void Execute()
-    {
-        DataPlayer dataPlayer = new DataPlayer//подготовим данные
-        {
-            healtPlayer = Healt,
-            shootCount = ShootCount
-        };
 
-        dataConfig.SaveData(dataPlayer, hashKey);
-        result[0] = true;
-    }
-}
